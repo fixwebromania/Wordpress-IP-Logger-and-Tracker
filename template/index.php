@@ -1,3 +1,4 @@
+<script src="/wp-content/plugins/ip-logger-tracker/js/vue.global.prod.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded",function() {    
     var app = new Vue({

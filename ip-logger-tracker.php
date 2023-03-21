@@ -6,9 +6,7 @@ Description: A wordpress plugin that log and track every visitator on site
 */
 
 define("TITLE","IP Logger and Tracker");
-define("PLUGIN_DIR",trim(__DIR__,"/"));
-define("TEMPLATE_DIR",PLUGIN_DIR."/template");
-
+define("TEMPLATE_DIR","template");
 
 function request($url)
 {
@@ -132,5 +130,4 @@ function index()
 
 	include(TEMPLATE_DIR."/index.php");
 }
-wp_enqueue_script("vue","/wp-content/plugins/ip-logger-tracker/js/vue.global.prod.js", array(), "1.0.0", true );
 ?>
