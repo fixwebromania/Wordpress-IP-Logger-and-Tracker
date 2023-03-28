@@ -60,7 +60,6 @@ function logVisit()
 	{
 		$result=$wpdb->insert( 'wp_log_visit', array( 'ip' =>$_SERVER['REMOTE_ADDR'], 'path' => $_SERVER['REQUEST_URI'] ) );
 		
-		
 		if(!$result)
 		{
 			throw new \Exception($wpdb->last_error);
@@ -79,6 +78,8 @@ add_action("admin_menu", "addMenu");
 
 function getiplist()
 {
+	ini_set('max_execution_time', '0');
+
 	global $wpdb;
 
 	$filters=isset($_GET['filters']) ? urldecode($_GET['filters']) : '';
@@ -91,12 +92,22 @@ function getiplist()
 
 	foreach($filters as $filter_name => $filter_value)
 	{
-		if(!empty($filter_value))
+		if(!empty($filter_value) && preg_match("/^filter/",$filter_name))
 		{
 			$sql.=" AND LOWER(".str_ireplace("filter_","",esc_sql($filter_name)).") LIKE '%".strtolower(esc_sql($filter_value))."%' ";
 		}
 	}
 	
+	if($filters['exclude_my_ip'])
+	{
+		$sql.=" AND ip!='".$_SERVER['REMOTE_ADDR']."' ";
+	}
+
+	if(!empty($filters['exclude_ip']))
+	{
+		$sql.=" AND ip!='".esc_sql($filters['exclude_ip'])."' ";
+	}
+
 	$sql.="ORDER BY date DESC";
 
 	$rows=$wpdb->get_results($sql);
