@@ -56,7 +56,7 @@ function logVisit()
 {
 	global $wpdb;
 	
-	if(!preg_match("/\/wp-admin\//i",$_SERVER['REQUEST_URI']))
+	if(!preg_match("/(\/wp-admin\/|wp-cron)/i",$_SERVER['REQUEST_URI']))
 	{
 		$result=$wpdb->insert( 'wp_log_visit', array( 'ip' =>$_SERVER['REMOTE_ADDR'], 'path' => $_SERVER['REQUEST_URI'] ) );
 		
